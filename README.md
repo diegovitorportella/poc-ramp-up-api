@@ -1,17 +1,26 @@
-POC - API de Usuários (Ramp Up)
-API desenvolvida como parte do programa de Ramp Up, focada na construção de um CRUD de usuários.
+# POC - API de Usuários (Ramp Up Backend)
 
-Este projeto documenta o progresso atual, implementando um CRUD funcional em Node.js com Express e Mongoose, e servirá como base para as próximas etapas de refatoração e implementação de novas tecnologias conforme a especificação da POC.
+API RESTful desenvolvida durante o programa de Ramp Up, com foco na implementação de um CRUD de usuários aplicando **Clean Architecture** e boas práticas de desenvolvimento.
 
-Status Atual: Funcional com Mongoose
-A API no estado atual está 100% funcional e inclui as seguintes features:
+O projeto foi refatorado para garantir o desacoplamento entre as regras de negócio, a camada de persistência e os controladores.
 
-CRUD Completo: Todas as rotas de (GET, POST, PUT, DELETE) para usuários estão implementadas e funcionando.
+## Tecnologias
 
-Filtros Dinâmicos: A rota GET /users aceita query params para filtragem por firstName, lastName, email e intervalos de idade (minAge, maxAge).
+* **Node.js** e **Express**
+* **PostgreSQL** e **Sequelize** (ORM)
+* **Joi** (Validação de dados)
+* **Clean Architecture** (Use Cases, Repositories e Controllers)
 
-Paginação e Ordenação: A rota principal GET /users utiliza um middleware que permite paginação (pagina, limite) e ordenação dinâmica (ordenacao).
+## Arquitetura e Funcionalidades
 
-Validação Robusta (Mongoose): O modelo de usuário (user.js) utiliza validações internas do Mongoose, incluindo required, trim, lowercase, minlength/maxlength e regex para email.
+O sistema está estruturado para isolar as responsabilidades, garantindo que o controlador não tenha conhecimento das regras de banco de dados ou de negócio complexas.
 
-Tratamento de Erros: O app possui um sistema centralizado de error handling com classes de erro personalizadas (ErroBase, NaoEncontrado, ErroValidacao, etc.) e middlewares dedicados.
+* **CRUD Completo**: Implementação das operações de criação, leitura, atualização e exclusão de usuários na rota `/users`.
+* **Clean Architecture**:
+  * **Controllers**: Responsáveis apenas por receber a requisição HTTP e devolver a resposta.
+  * **Use Cases**: Encapsulam toda a regra de negócio (ex: verificação de e-mail duplicado, lógica de filtros).
+  * **Repositories**: Abstraem o acesso ao banco de dados (Sequelize), facilitando a manutenção e testes.
+* **Listagem Avançada**: A lógica de listagem suporta **filtros** (por nome, e-mail e idade), **paginação** e **ordenação**, gerenciados diretamente na camada de Use Case.
+* **Validação de Dados**: Middleware integrado com **Joi** para garantir que os dados de entrada (payload) estejam corretos antes de serem processados.
+* **Tratamento de Erros**: Middleware centralizado para capturar exceções (como `NaoEncontrado` ou `RequisicaoIncorreta`) e padronizar as respostas da API.
+
