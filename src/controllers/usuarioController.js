@@ -1,67 +1,39 @@
-import NaoEncontrado from "../erros/NaoEncontrado.js";
-import {usuario} from "../models/index.js";
+import createUserUseCase from "../use-cases/CreateUserUseCase.js";
+import listUsersUseCase from "../use-cases/ListUsersUseCase.js";
+import getUserByIdUseCase from "../use-cases/GetUserByIdUseCase.js";
+import updateUserUseCase from "../use-cases/UpdateUserUseCase.js";
+import deleteUserUseCase from "../use-cases/DeleteUserUseCase.js";
 
 class usuarioController {
 
-    //static async poder chamar os metodos sem instanciar
     static listarUsuarios = async (req, res, next) => {
         try {
-            // 1. Pega os filtros da query (req.query)
-            const { firstName, lastName, minAge, maxAge, email } = req.query;
-
-            // 2. Monta o objeto de filtro
-            const filtro = {};
-
-            if (firstName) {
-                filtro.firstName = { $regex: firstName, $options: 'i' }; 
-            }
-            if (lastName) {
-                filtro.lastName = { $regex: lastName, $options: 'i' };
-            }
-            if (email) {
-                filtro.email = { $regex: email, $options: 'i' };
-            }
-            if (minAge || maxAge) {
-                filtro.age = {};
-                if (minAge) filtro.age.$gte = minAge;
-                if (maxAge) filtro.age.$lte = maxAge;
-            }
-
-            const queryBuscaUsuarios = usuario.find(filtro);
+            const resultado = await listUsersUseCase.execute({
+                query: req.query,
+                page: req.query.pagina,
+                limit: req.query.limite,
+                order: req.query.ordenacao
+            });
             
-            req.resultado = queryBuscaUsuarios;
-
-            next();
-
+            res.status(200).json(resultado);
         } catch (erro) {
             next(erro);
         }
     };
 
-    static async listarUsuarioPorId(req, res, next) {
+    static listarUsuarioPorId = async (req, res, next) => {
         try {
-            const id = req.params.id;
-            const usuarioEncontrado = await usuario.findById(id);
-
-            if (usuarioEncontrado !== null) {
-                res.status(200).send(usuarioEncontrado);
-            } else {
-                next(new NaoEncontrado("ID do usuário não localizado"));
-            }
+            const usuario = await getUserByIdUseCase.execute(req.params.id);
+            res.status(200).send(usuario);
         } catch (erro) {
             next(erro);
         }
     };
 
     static cadastrarUsuario = async (req, res, next) => {
-        //try catch manejo de erros e sucessos
         try {
-            const novoUsuario = await usuario.create(req.body);
-
-            res.status(201).json({
-                message: "criado com sucesso", usuario:
-                    novoUsuario
-            });
+            const novoUsuario = await createUserUseCase.execute(req.body);
+            res.status(201).json({ message: "criado com sucesso", usuario: novoUsuario });
         } catch (erro) {
             next(erro);
         }
@@ -69,32 +41,17 @@ class usuarioController {
 
     static atualizarUsuario = async (req, res, next) => {
         try {
-            const id = req.params.id;
-
-            const usuarioEncontrado = await usuario.findByIdAndUpdate(id, req.body);
-
-            if (usuarioEncontrado !== null) {
-                res.status(200).send({ message: "Autor atualizado com sucesso" });
-            } else {
-                next(new NaoEncontrado("Id do Autor não localizado."));
-            }
-
+            const resposta = await updateUserUseCase.execute(req.params.id, req.body);
+            res.status(200).send(resposta);
         } catch (erro) {
             next(erro);
         }
     };
 
-    //Remove um usuário
     static excluirUsuario = async (req, res, next) => {
         try {
-            const id = req.params.id;
-
-            const usuarioEncontrado = await usuario.findByIdAndDelete(id);
-            if (usuarioEncontrado !== null) {
-                res.status(200).json({ message: "Usuário excluído" });
-            } else {
-                next(new NaoEncontrado("Id do Autor não localizado."));
-            }
+            const resposta = await deleteUserUseCase.execute(req.params.id);
+            res.status(200).json(resposta);
         } catch (erro) {
             next(erro);
         }
