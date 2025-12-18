@@ -18,9 +18,7 @@ const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
   }
 });
 
-// Inicializar modelos
 User.initModel(sequelize);
 
-// Exportar
 export { sequelize };
 export default User;

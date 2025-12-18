@@ -14,11 +14,11 @@ app.use(express.json());
     await sequelize.authenticate();
     console.log("PostgreSQL connection established successfully.");
 
-    await sequelize.sync({ alter: true }); 
-    console.log("Tables synchronized.");
+    // A linha de sync foi removida para garantir que o banco não seja resetado.
+    // As migrations agora cuidam da estrutura do banco.
     
   } catch (error) {
-    console.error("Fatal error connecting or syncing database:", error);
+    console.error("Fatal error connecting database:", error);
   }
 })();
 

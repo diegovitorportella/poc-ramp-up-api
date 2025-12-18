@@ -9,7 +9,7 @@ export default defineConfig([
     extends: ["js/recommended"], 
     languageOptions: { 
       globals: globals.node,
-      ecmaVersion: "latest" // <-- ADICIONE ESTA LINHA
+      ecmaVersion: "latest" 
     } 
   },
 ]);

@@ -11,11 +11,8 @@ interface UserAttributes {
   updatedAt?: Date;
 }
 
-// 2. Interface para criação (o ID é opcional pois o banco gera)
-// Optional<T, K> torna as chaves K de T opcionais.
 export interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
-// 3. A classe estende Model passando os atributos e os atributos de criação
 class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: number;
   public firstName!: string;
@@ -36,7 +33,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
       firstName: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        field: 'first_name', // Mantendo o nome da coluna no banco em snake_case
+        field: 'first_name', 
       },
       lastName: {
         type: DataTypes.STRING(50),
@@ -58,7 +55,7 @@ class User extends Model<UserAttributes, UserCreationAttributes> implements User
     }, {
       sequelize,
       modelName: 'User',
-      tableName: 'usuarios', 
+      tableName: 'users', 
       timestamps: true,
     });
     return User;

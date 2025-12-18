@@ -9,7 +9,6 @@ class UserController {
 
     static listUsers = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            // Convertendo query params para os tipos esperados
             const result = await listUsersUseCase.execute({
                 query: req.query as any,
                 page: req.query.page ? Number(req.query.page) : 1,

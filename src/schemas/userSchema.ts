@@ -19,3 +19,8 @@ export const userSchema = Joi.object({
     'any.required': 'Email is required'
   })
 });
+
+export const updateUserSchema = userSchema.fork(
+    ['firstName', 'lastName', 'email'], 
+    (schema) => schema.optional()
+);
