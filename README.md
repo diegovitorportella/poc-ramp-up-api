@@ -2,6 +2,8 @@
 
 API RESTful desenvolvida durante o programa de Ramp Up, focada na implementação de um CRUD de usuários aplicando **Clean Architecture**, **TypeScript** e boas práticas de desenvolvimento de software.
 
+### Desenvolvido por Diego Portella
+
 O projeto foi totalmente refatorado para garantir o desacoplamento entre regras de negócio, persistência e controladores, além de incluir testes automatizados e controle de versão de banco de dados.
 
 ## 🚀 Tecnologias e Ferramentas
@@ -37,4 +39,3 @@ src/
 ├── use-cases/     # Regras de Negócio (ex: users/Create.ts)
 └── tests/         # Testes de Integração
 
-### Desenvolvido por Diego Portella
