@@ -37,16 +37,4 @@ src/
 ├── use-cases/     # Regras de Negócio (ex: users/Create.ts)
 └── tests/         # Testes de Integração
 
-## 🔌 Rotas da API
-
-| Método | Rota          | Descrição                                  |
-| :---   | :---          | :---                                       |
-| GET    | `/users`      | Lista usuários (com paginação e filtros)   |
-| GET    | `/users/:id`  | Busca um usuário pelo ID                   |
-| POST   | `/users`      | Cria um novo usuário                       |
-| PUT    | `/users/:id`  | Atualiza dados de um usuário               |
-| DELETE | `/users/:id`  | Remove um usuário                          |
-
----
-
-**Desenvolvido por Diego Portella**
+### Desenvolvido por Diego Portella
