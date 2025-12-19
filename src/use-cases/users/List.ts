@@ -1,4 +1,4 @@
-import userRepository from "../repositories/UserRepository";
+import userRepository from "../../repositories/UserRepository";
 import { Op, FindOptions } from 'sequelize';
 
 interface ListUserParams {
@@ -6,7 +6,7 @@ interface ListUserParams {
         firstName?: string;
         lastName?: string;
         email?: string;
-        minAge?: string; // Query params vêm como string do Express
+        minAge?: string;
         maxAge?: string;
     };
     page?: number;
@@ -14,12 +14,12 @@ interface ListUserParams {
     order?: string;
 }
 
-class ListUsersUseCase {
+class List {
   async execute({ query, page = 1, limit = 5, order = "id:-1" }: ListUserParams) {
     const { firstName, lastName, minAge, maxAge, email } = query;
-    const where: any = {}; // 'any' permite adicionar chaves dinamicamente
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const where: any = {}; 
 
-    // Montar filtros (Lógica de Negócio de Busca)
     if (firstName) where.firstName = { [Op.iLike]: `%${firstName}%` };
     if (lastName) where.lastName = { [Op.iLike]: `%${lastName}%` };
     if (email) where.email = { [Op.iLike]: `%${email}%` };
@@ -30,11 +30,9 @@ class ListUsersUseCase {
         if (maxAge) where.age[Op.lte] = Number(maxAge);
     }
 
-    // Tratamento da ordenação (ex: "age:-1" ou "firstName:1")
     let [orderByField, orderDirection] = order.split(":");
     const direction = orderDirection === '-1' ? 'DESC' : 'ASC';
 
-    // Montar opções de paginação
     const options: FindOptions = {
         where,
         limit: Number(limit),
@@ -42,10 +40,8 @@ class ListUsersUseCase {
         order: [[orderByField, direction]]
     };
 
-    // Chamar Repositório
     const { count, rows } = await userRepository.findAll(options);
 
-    // Retornar dados formatados em inglês
     return {
         data: rows,
         meta: {
@@ -58,4 +54,4 @@ class ListUsersUseCase {
   }
 }
 
-export default new ListUsersUseCase();
+export default new List();

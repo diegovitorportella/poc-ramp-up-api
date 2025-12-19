@@ -1,7 +1,7 @@
-import userRepository from "../repositories/UserRepository";
-import NotFoundError from "../errors/NotFoundError";
+import userRepository from "../../repositories/UserRepository";
+import NotFoundError from "../../errors/NotFoundError";
 
-class DeleteUserUseCase {
+class Delete {
   async execute(id: number) {
     const rowsDeleted = await userRepository.delete(id);
 
@@ -13,4 +13,4 @@ class DeleteUserUseCase {
   }
 }
 
-export default new DeleteUserUseCase();
+export default new Delete();

@@ -1,7 +1,7 @@
-import userRepository from "../repositories/UserRepository";
-import NotFoundError from "../errors/NotFoundError";
+import userRepository from "../../repositories/UserRepository";
+import NotFoundError from "../../errors/NotFoundError";
 
-class GetUserByIdUseCase {
+class GetById {
   async execute(id: number) {
     const user = await userRepository.findById(id);
     
@@ -13,4 +13,4 @@ class GetUserByIdUseCase {
   }
 }
 
-export default new GetUserByIdUseCase();
+export default new GetById();

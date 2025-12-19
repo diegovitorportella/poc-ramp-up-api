@@ -1,8 +1,8 @@
-import userRepository from "../repositories/UserRepository";
-import BadRequestError from "../errors/BadRequestError";
-import { UserCreationAttributes } from "../models/User";
+import userRepository from "../../repositories/UserRepository";
+import BadRequestError from "../../errors/BadRequestError";
+import { UserCreationAttributes } from "../../models/User";
 
-class CreateUserUseCase {
+class Create {
   async execute(data: UserCreationAttributes) {
     const userExists = await userRepository.findByEmail(data.email);
     
@@ -16,4 +16,4 @@ class CreateUserUseCase {
   }
 }
 
-export default new CreateUserUseCase();
+export default new Create();
