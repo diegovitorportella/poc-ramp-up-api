@@ -1,26 +1,52 @@
 # POC - API de Usuários (Ramp Up Backend)
 
-API RESTful desenvolvida durante o programa de Ramp Up, com foco na implementação de um CRUD de usuários aplicando **Clean Architecture** e boas práticas de desenvolvimento.
+API RESTful desenvolvida durante o programa de Ramp Up, focada na implementação de um CRUD de usuários aplicando **Clean Architecture**, **TypeScript** e boas práticas de desenvolvimento de software.
 
-O projeto foi refatorado para garantir o desacoplamento entre as regras de negócio, a camada de persistência e os controladores.
+O projeto foi totalmente refatorado para garantir o desacoplamento entre regras de negócio, persistência e controladores, além de incluir testes automatizados e controle de versão de banco de dados.
 
-## Tecnologias
+## 🚀 Tecnologias e Ferramentas
 
-* **Node.js** e **Express**
-* **PostgreSQL** e **Sequelize** (ORM)
-* **Joi** (Validação de dados)
-* **Clean Architecture** (Use Cases, Repositories e Controllers)
+* **Linguagem:** TypeScript
+* **Runtime:** Node.js
+* **Framework:** Express
+* **ORM:** Sequelize (com Migrations e Seeders)
+* **Banco de Dados:** PostgreSQL
+* **Validação:** Joi
+* **Testes:** Jest & Supertest
+* **Padronização:** ESLint
 
-## Arquitetura e Funcionalidades
+## 🏗 Arquitetura e Estrutura
 
-O sistema está estruturado para isolar as responsabilidades, garantindo que o controlador não tenha conhecimento das regras de banco de dados ou de negócio complexas.
+O sistema segue os princípios da **Clean Architecture**, isolando responsabilidades para facilitar a manutenção e escalabilidade.
 
-* **CRUD Completo**: Implementação das operações de criação, leitura, atualização e exclusão de usuários na rota `/users`.
-* **Clean Architecture**:
-  * **Controllers**: Responsáveis apenas por receber a requisição HTTP e devolver a resposta.
-  * **Use Cases**: Encapsulam toda a regra de negócio (ex: verificação de e-mail duplicado, lógica de filtros).
-  * **Repositories**: Abstraem o acesso ao banco de dados (Sequelize), facilitando a manutenção e testes.
-* **Listagem Avançada**: A lógica de listagem suporta **filtros** (por nome, e-mail e idade), **paginação** e **ordenação**, gerenciados diretamente na camada de Use Case.
-* **Validação de Dados**: Middleware integrado com **Joi** para garantir que os dados de entrada (payload) estejam corretos antes de serem processados.
-* **Tratamento de Erros**: Middleware centralizado para capturar exceções (como `NaoEncontrado` ou `RequisicaoIncorreta`) e padronizar as respostas da API.
+### Destaques da Estrutura
+* **Controllers:** Apenas recebem a requisição HTTP e devolvem a resposta. Não contêm regras de negócio.
+* **Use Cases:** Organizados por domínio (ex: `src/use-cases/users/Create.ts`). Encapsulam a lógica pura (validações de negócio, regras de unicidade).
+* **Repositories:** Abstraem a camada de dados (Sequelize). O restante da aplicação não sabe qual banco está sendo usado.
+* **Database:** Configurações centralizadas, Migrations (histórico de schema) e Seeders (dados iniciais) em `src/database`.
 
+### Organização de Pastas
+```bash
+src/
+├── controllers/   # Controladores HTTP
+├── database/      # Configuração, Migrations e Seeders
+├── middlewares/   # Validação (Joi) e Tratamento de Erros
+├── models/        # Definição das tabelas (Sequelize)
+├── repositories/  # Acesso ao banco de dados
+├── routes/        # Definição das rotas
+├── use-cases/     # Regras de Negócio (ex: users/Create.ts)
+└── tests/         # Testes de Integração
+
+## 🔌 Rotas da API
+
+| Método | Rota          | Descrição                                  |
+| :---   | :---          | :---                                       |
+| GET    | `/users`      | Lista usuários (com paginação e filtros)   |
+| GET    | `/users/:id`  | Busca um usuário pelo ID                   |
+| POST   | `/users`      | Cria um novo usuário                       |
+| PUT    | `/users/:id`  | Atualiza dados de um usuário               |
+| DELETE | `/users/:id`  | Remove um usuário                          |
+
+---
+
+**Desenvolvido por Diego Portella**
