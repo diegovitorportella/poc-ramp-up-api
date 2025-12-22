@@ -19,7 +19,6 @@ class UserRepository {
     return await User.findOne({ where: { email } });
   }
 
-  // O update retorna [número de linhas afetadas]
   async update(id: number, updatedData: Partial<UserCreationAttributes>): Promise<[affectedCount: number]> {
     return await User.update(updatedData, {
       where: { id: id }

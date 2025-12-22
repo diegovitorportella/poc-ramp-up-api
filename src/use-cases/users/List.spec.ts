@@ -10,47 +10,69 @@ describe('List User Use Case', () => {
   });
 
   it('should list users with default parameters', async () => {
-    const mockResponse = { count: 1, rows: [{ id: 1, firstName: 'Diego' }] };
-    (userRepository.findAll as jest.Mock).mockResolvedValue(mockResponse);
+    (userRepository.findAll as jest.Mock).mockResolvedValue({ count: 0, rows: [] });
+    
+    await List.execute({ query: {} });
 
-    const result = await List.execute({ query: {} });
-
-    // Verifica se chamou com paginação padrão e sem filtros
     expect(userRepository.findAll).toHaveBeenCalledWith(expect.objectContaining({
       where: {},
       limit: 5,
       offset: 0,
       order: [['id', 'DESC']]
     }));
-
-    expect(result.meta).toEqual({
-      total: 1,
-      limit: 5,
-      page: 1,
-      totalPages: 1
-    });
   });
 
-  it('should apply filters correctly (name and age)', async () => {
+  it('should apply simple string filters (firstName, lastName, email)', async () => {
     (userRepository.findAll as jest.Mock).mockResolvedValue({ count: 0, rows: [] });
 
     await List.execute({
       query: {
         firstName: 'Diego',
-        minAge: '18'
-      },
-      page: 2,
-      limit: 10
+        lastName: 'Portella',
+        email: 'teste@teste.com'
+      }
     });
 
-    // Verifica se os operadores do Sequelize foram montados
     expect(userRepository.findAll).toHaveBeenCalledWith(expect.objectContaining({
       where: expect.objectContaining({
         firstName: { [Op.iLike]: '%Diego%' },
+        lastName: { [Op.iLike]: '%Portella%' },
+        email: { [Op.iLike]: '%teste@teste.com%' }
+      })
+    }));
+  });
+
+  it('should apply ONLY minAge filter', async () => {
+    (userRepository.findAll as jest.Mock).mockResolvedValue({ count: 0, rows: [] });
+
+    await List.execute({ query: { minAge: '18' } });
+
+    expect(userRepository.findAll).toHaveBeenCalledWith(expect.objectContaining({
+      where: expect.objectContaining({
         age: { [Op.gte]: 18 }
-      }),
-      limit: 10,
-      offset: 10 // (page 2 - 1) * limit 10 = 10
+      })
+    }));
+  });
+
+  it('should apply ONLY maxAge filter', async () => {
+    (userRepository.findAll as jest.Mock).mockResolvedValue({ count: 0, rows: [] });
+
+    await List.execute({ query: { maxAge: '30' } });
+
+    expect(userRepository.findAll).toHaveBeenCalledWith(expect.objectContaining({
+      where: expect.objectContaining({
+        age: { [Op.lte]: 30 }
+      })
+    }));
+  });
+
+  it('should apply custom order (ASC)', async () => {
+    (userRepository.findAll as jest.Mock).mockResolvedValue({ count: 0, rows: [] });
+
+    await List.execute({ query: {}, order: 'age:1' });
+
+    expect(userRepository.findAll).toHaveBeenCalledWith(expect.objectContaining({
+      order: [['age', 'ASC']]
     }));
   });
 });

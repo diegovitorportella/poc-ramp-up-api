@@ -4,12 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest",  
+    "test": "cross-env NODE_ENV=test jest", 
+    "test:coverage": "jest --coverage", 
     "dev": "nodemon server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
+
   },
   "keywords": [],
   "author": "",

@@ -5,18 +5,18 @@ module.exports = {
   async up (queryInterface) {
     await queryInterface.bulkInsert('users', [
       {
-        first_name: 'Diego',
-        last_name: 'Portella',
-        age: 21,
-        email: 'diego.portella@teste.com', 
+        first_name: 'Lionel',
+        last_name: 'Messi',
+        age: 38,
+        email: 'lionel.messi@barcelona.com',
         created_at: new Date(),
         updated_at: new Date()
       },
       {
-        first_name: 'Rafael',
-        last_name: 'Yamashita',
-        age: 25,
-        email: 'rafael.yamashita@teste.com', 
+        first_name: 'Cristiano',
+        last_name: 'Ronaldo',
+        age: 40,
+        email: 'cristiano.ronaldo@realmadrid.com',
         created_at: new Date(),
         updated_at: new Date()
       }
