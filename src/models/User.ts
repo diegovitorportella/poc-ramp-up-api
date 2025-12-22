@@ -1,6 +1,5 @@
 import { Model, DataTypes, Sequelize, Optional } from 'sequelize';
 
-// 1. Interface que representa todos os campos da tabela
 interface UserAttributes {
   id: number;
   firstName: string;

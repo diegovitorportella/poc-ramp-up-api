@@ -8,7 +8,7 @@ module.exports = {
         first_name: 'Diego',
         last_name: 'Portella',
         age: 21,
-        email: 'diego.portella@encora.com',
+        email: 'diego.portella@teste.com', 
         created_at: new Date(),
         updated_at: new Date()
       },
@@ -16,7 +16,7 @@ module.exports = {
         first_name: 'Rafael',
         last_name: 'Yamashita',
         age: 25,
-        email: 'rafael.yamashita@encora.com',
+        email: 'rafael.yamashita@teste.com', 
         created_at: new Date(),
         updated_at: new Date()
       }
